@@ -22,8 +22,8 @@ RSpec.describe "customer subscriptions", type: :request do
 
       json_response = JSON.parse(response.body)
 
-      expect(json_response["subscription"]["title"]).to eq("Monthly Delight")
-      expect(json_response["teas"].count).to eq(2)
+      expect(json_response["data"]["attributes"]["title"]).to eq("Monthly Double Delight")
+      expect(json_response["included"].count).to eq(2)
     end
   end
 end
