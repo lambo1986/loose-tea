@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe "customer subscriptions", type: :request do
   describe "POST /api/v1/customers/subscribe" do
-    it "creates a customer subscription" do
+    it "activates/adds a customer subscription" do
       customer = FactoryBot.create(:customer)
       tea1 = FactoryBot.create(:tea)
       tea2 = FactoryBot.create(:tea)
@@ -23,6 +23,7 @@ RSpec.describe "customer subscriptions", type: :request do
       json_response = JSON.parse(response.body)
 
       expect(json_response["data"]["attributes"]["title"]).to eq("Monthly Double Delight")
+      expect(json_response["data"]["attributes"]["status"]).to eq("active")
       expect(json_response["included"].count).to eq(2)
     end
   end
