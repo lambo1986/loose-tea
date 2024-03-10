@@ -2,7 +2,7 @@
 
 ***Hello and welcome to Loose Tea. This is a simple app that can help you find teas, purchase teas or subscribe to monthly tea clubs.***
 
-Things you may want to cover:
+Things to know:
 
 * Ruby version - 3.1.4
 
