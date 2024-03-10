@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe "customer subscriptions", type: :request do
-  describe "POST /api/v1/customers/subscribe" do
+  describe "POST /api/v1/customers/subscriptions" do
     it "activates/adds a customer subscription" do
       customer = FactoryBot.create(:customer)
       tea1 = FactoryBot.create(:tea)
@@ -16,7 +16,7 @@ RSpec.describe "customer subscriptions", type: :request do
         }
       }
 
-      post "/api/v1/customers/#{customer.id}/subscribe", params: subscription_params
+      post "/api/v1/customers/#{customer.id}/subscriptions", params: subscription_params
 
       expect(response).to have_http_status(:created)
 
@@ -26,5 +26,9 @@ RSpec.describe "customer subscriptions", type: :request do
       expect(json_response["data"]["attributes"]["status"]).to eq("active")
       expect(json_response["included"].count).to eq(2)
     end
+  end
+
+  describe "DELETE /api/v1/customers/:id/subscriptions/:subscription_id" do
+
   end
 end

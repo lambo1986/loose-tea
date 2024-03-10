@@ -4,9 +4,7 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :customers do
-        member do
-          post :subscribe
-        end
+        resources :subscriptions, only: [:create]
       end
     end
   end
