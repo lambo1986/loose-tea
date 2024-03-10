@@ -34,7 +34,7 @@ RSpec.describe "customer subscriptions", type: :request do
     end
   end
 
-  describe "DELETE /api/v1/customers/:id/subscriptions/:subscription_id" do
+  describe "UPDATE /api/v1/customers/:id/subscriptions/:subscription_id" do
     it "deactivates a customer subscription" do
       create_subscription(customer, subscription_params)
       expect(response).to have_http_status(:created)
@@ -49,6 +49,18 @@ RSpec.describe "customer subscriptions", type: :request do
 
       expect(json_response["data"]["attributes"]["status"]).to eq("inactive")
     end
+
+    it "is sad if you try to update a customer subscription status with an empty string" do
+      create_subscription(customer, subscription_params)
+      expect(response).to have_http_status(:created)
+
+      subscription = JSON.parse(response.body)["data"]
+      subscription_id = subscription["id"]
+
+      patch "/api/v1/customers/#{customer.id}/subscriptions/#{subscription_id}", params: { subscription: { status: "" } }
+
+      expect(response).to have_http_status(:unprocessable_entity)
+    end
   end
 
   describe "GET /api/v1/customers/:id/subscriptions/" do
@@ -62,9 +74,24 @@ RSpec.describe "customer subscriptions", type: :request do
       expect(response).to have_http_status(:ok)
 
       json_response = JSON.parse(response.body)
-      
+
       expect(json_response["data"].count).to eq(3)
       expect(json_response["data"].first["attributes"]["title"]).to eq("Monthly Myst")
+
+      create_subscription(customer, subscription_params)
+      expect(response).to have_http_status(:created)
+      json_response = JSON.parse(response.body)
+      expect(json_response["data"].count).to eq(4)
+    end
+
+    it "returns an empty hash and 404 if no subscriptions exist" do
+      get "/api/v1/customers/#{customer.id}/subscriptions"
+
+      expect(response).to have_http_status(:not_found)
+
+      json_response = JSON.parse(response.body)
+
+      expect(json_response).to eq({})
     end
   end
 end
