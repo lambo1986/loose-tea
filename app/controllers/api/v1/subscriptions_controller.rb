@@ -16,12 +16,10 @@ class Api::V1::SubscriptionsController < ApplicationController
     subscription = customer.subscriptions.create!(subscription_params)
 
     if subscription.persisted?
-      params[:subscription][:tea_ids].each do |tea_id|
+        params[:subscription][:tea_ids].each do |tea_id|
         subscription.teas << Tea.find(tea_id)
       end
-      render json: SubscriptionSerializer.new(subscription, include: [:teas]).serializable_hash, status: :created
-    else
-      render json: { errors: subscription.errors.full_messages }, status: :unprocessable_entity
+        render json: SubscriptionSerializer.new(subscription, include: [:teas]).serializable_hash, status: :created
     end
   end
 
