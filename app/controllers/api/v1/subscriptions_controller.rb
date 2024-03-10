@@ -11,6 +11,17 @@ class Api::V1::SubscriptionsController < ApplicationController
     end
   end
 
+  def show
+    customer = Customer.find(params[:customer_id])
+    subscription = customer.subscriptions.find_by(id: params[:id])
+
+    if subscription.present?
+      render json: SubscriptionSerializer.new(subscription).serializable_hash.to_json, status: :ok
+    else
+      render json: {}, status: 404
+    end
+  end
+
   def create
     customer = Customer.find(params[:customer_id])
     subscription = customer.subscriptions.create!(subscription_params)
@@ -30,6 +41,17 @@ class Api::V1::SubscriptionsController < ApplicationController
       render json: SubscriptionSerializer.new(subscription).serializable_hash.to_json, status: :ok
     else
       render json: { errors: subscription.errors.full_messages }, status: :unprocessable_entity
+    end
+  end
+
+  def destroy
+    subscription = Subscription.find_by(id: params[:id])
+
+    if subscription
+      subscription.destroy
+      render json: {}, status: :no_content
+    else
+      render json: { error: 'Subscription not found' }, status: :not_found
     end
   end
 

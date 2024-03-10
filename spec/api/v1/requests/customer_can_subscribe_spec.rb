@@ -94,4 +94,47 @@ RSpec.describe "customer subscriptions", type: :request do
       expect(json_response).to eq({})
     end
   end
+
+  describe "get /api/v1/customers/:id/subscriptions/:subscription_id" do
+    it "returns a single customer subscription" do
+      create_subscription(customer, subscription_params)
+
+      get "/api/v1/customers/#{customer.id}/subscriptions/#{Subscription.last.id}"
+
+      expect(response).to have_http_status(:ok)
+
+      json_response = JSON.parse(response.body)
+
+      expect(json_response["data"]["attributes"]["title"]).to eq("Monthly Double Delight")
+    end
+
+    it "is sad if you try to get a customer subscription that doesn't exist" do
+      create_subscription(customer, subscription_params)
+
+      get "/api/v1/customers/#{customer.id}/subscriptions/999999"
+
+      expect(response).to have_http_status(:not_found)
+      expect(JSON.parse(response.body)).to eq({})
+    end
+  end
+
+  describe "DELETE /api/v1/customers/:id/subscriptions/:subscription_id" do
+    it "deletes a customer subscription" do
+      create_subscription(customer, subscription_params)
+
+      delete "/api/v1/customers/#{customer.id}/subscriptions/#{Subscription.last.id}"
+
+      expect(response).to have_http_status(:no_content)
+    end
+
+    it "is sad if you try to delete a customer subscription that doesn't exist" do
+      delete "/api/v1/customers/#{customer.id}/subscriptions/999999"
+
+      expect(response).to have_http_status(:not_found)
+      expect(JSON.parse(response.body)["error"]).to eq("Subscription not found")
+      expect(Subscription.count).to eq(0)
+      expect(Customer.count).to eq(1)
+      expect(Customer.first.subscriptions.count).to eq(0)
+    end
+  end
 end
