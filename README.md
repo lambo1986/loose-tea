@@ -1,24 +1,20 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+***Hello and welcome to Loose Tea. This is a simple app that can help you find teas, purchase teas or subscribe to monthly tea clubs.***
 
 Things you may want to cover:
 
-* Ruby version
+* Ruby version - 3.1.4
 
-* System dependencies
+* Rails version - 7.1.3.2
 
-* Configuration
+* Database - PostegreSQL
 
-* Database creation
+* How to run the test suite - run 'bundle exec rspec' with Terminal inside the root directory.
 
-* Database initialization
+* Services - Very simple: model, controller - serializer backend features. 
 
-* How to run the test suite
+* Instructions - Clone repo, run 'bundle install' and then 'rails server' to run. 
+Needs frontend for full functionality. 
 
-* Services (job queues, cache servers, search engines, etc.)
 
-* Deployment instructions
-
-* ...
