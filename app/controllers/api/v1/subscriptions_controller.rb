@@ -19,7 +19,7 @@ class Api::V1::SubscriptionsController < ApplicationController
         params[:subscription][:tea_ids].each do |tea_id|
         subscription.teas << Tea.find(tea_id)
       end
-        render json: SubscriptionSerializer.new(subscription, include: [:teas]).serializable_hash, status: :created
+        render json: SubscriptionSerializer.new(subscription, include: [:teas]).serializable_hash.to_json, status: :created
     end
   end
 
