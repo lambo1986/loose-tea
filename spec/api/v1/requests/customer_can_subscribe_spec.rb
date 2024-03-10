@@ -16,14 +16,15 @@ RSpec.describe "customer subscriptions", type: :request do
     }
   end
 
-  before do
-    post "/api/v1/customers/#{customer.id}/subscriptions", params: subscription_params
+  def create_subscription(customer, params)
+    post "/api/v1/customers/#{customer.id}/subscriptions", params: params
   end
 
   describe "POST /api/v1/customers/subscriptions" do
     it "activates/adds a customer subscription" do
-      expect(response).to have_http_status(:created)
+      create_subscription(customer, subscription_params)
 
+      expect(response).to have_http_status(:created)
       json_response = JSON.parse(response.body)
 
       expect(json_response["data"]["attributes"]["title"]).to eq("Monthly Double Delight")
@@ -35,7 +36,18 @@ RSpec.describe "customer subscriptions", type: :request do
 
   describe "DELETE /api/v1/customers/:id/subscriptions/:subscription_id" do
     it "deactivates a customer subscription" do
+      create_subscription(customer, subscription_params)
+      expect(response).to have_http_status(:created)
 
+      subscription = JSON.parse(response.body)["data"]
+      subscription_id = subscription["id"]
+
+      patch "/api/v1/customers/#{customer.id}/subscriptions/#{subscription_id}", params: { subscription: { status: "inactive" } }
+
+      expect(response).to have_http_status(:ok)
+      json_response = JSON.parse(response.body)
+
+      expect(json_response["data"]["attributes"]["status"]).to eq("inactive")
     end
   end
 end
