@@ -23,8 +23,8 @@ RSpec.describe "customer subscriptions", type: :request do
   describe "POST /api/v1/customers/subscriptions" do
     it "activates/adds a customer subscription" do
       create_subscription(customer, subscription_params)
-
       expect(response).to have_http_status(:created)
+
       json_response = JSON.parse(response.body)
 
       expect(json_response["data"]["attributes"]["title"]).to eq("Monthly Double Delight")
@@ -48,6 +48,23 @@ RSpec.describe "customer subscriptions", type: :request do
       json_response = JSON.parse(response.body)
 
       expect(json_response["data"]["attributes"]["status"]).to eq("inactive")
+    end
+  end
+
+  describe "GET /api/v1/customers/:id/subscriptions/" do
+    it "returns a list of customer subscriptions, active or not" do
+      sub1 = Subscription.create!(title: "Monthly Myst", price: "19.99", status: "active", frequency: "monthly", customer_id: customer.id, tea_ids: [tea1.id, tea2.id])
+      sub2 = Subscription.create!(title: "Weekly Herbal", price: "9.99", status: "inactive", frequency: "weekly", customer_id: customer.id, tea_ids: [tea1.id])
+      sub3 = Subscription.create!(title: "Bi-Monthly Blast", price: "13.99,", status: "active", frequency: "bi-monthly", customer_id: customer.id, tea_ids: [tea1.id, tea2.id])
+
+      get "/api/v1/customers/#{customer.id}/subscriptions"
+
+      expect(response).to have_http_status(:ok)
+
+      json_response = JSON.parse(response.body)
+      
+      expect(json_response["data"].count).to eq(3)
+      expect(json_response["data"].first["attributes"]["title"]).to eq("Monthly Myst")
     end
   end
 end

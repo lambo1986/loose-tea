@@ -1,5 +1,16 @@
 class Api::V1::SubscriptionsController < ApplicationController
 
+  def index
+    customer = Customer.find(params[:customer_id])
+    subscriptions = customer.subscriptions
+
+    if subscriptions.present?
+      render json: SubscriptionSerializer.new(subscriptions).serializable_hash.to_json, status: 200
+    else
+      render json: {}, status: 404
+    end
+  end
+
   def create
     customer = Customer.find(params[:customer_id])
     subscription = customer.subscriptions.create!(subscription_params)
@@ -16,7 +27,7 @@ class Api::V1::SubscriptionsController < ApplicationController
 
   def update
     subscription = Subscription.find(params[:id])
-    
+
     if subscription.update(subscription_params)
       render json: SubscriptionSerializer.new(subscription).serializable_hash.to_json, status: :ok
     else
