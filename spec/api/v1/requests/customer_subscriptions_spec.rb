@@ -20,7 +20,7 @@ RSpec.describe "customer subscriptions", type: :request do
     post "/api/v1/customers/#{customer.id}/subscriptions", params: params
   end
 
-  describe "POST /api/v1/customers/subscriptions" do
+  describe "POST /api/v1/customers/:id/subscriptions" do
     it "activates/adds a customer subscription" do
       create_subscription(customer, subscription_params)
       expect(response).to have_http_status(:created)

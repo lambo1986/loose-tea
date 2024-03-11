@@ -21,14 +21,19 @@ Endpoints for consumption:
 
 - Base Url: http://localhost:3000
 
+Get a list of all subscriptions for a customer:
 - GET /api/v1/customers/:id/subscriptions
 
+Get a single subscription for a customer:
 - GET /api/v1/customers/:id/subscriptions/:subscription_id
 
-- POST /api/v1/customers/subscriptions
+Create a new subscription for a customer:
+- POST /api/v1/customers/:id/subscriptions
 
+Change a customer's subscription:
 - UPDATE /api/v1/customers/:id/subscriptions/:subscription_id
 
+Delete a subscription for a customer:
 - DELETE /api/v1/customers/:id/subscriptions/:subscription_id
 
 
