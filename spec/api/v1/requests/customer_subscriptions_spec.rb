@@ -95,7 +95,7 @@ RSpec.describe "customer subscriptions", type: :request do
     end
   end
 
-  describe "get /api/v1/customers/:id/subscriptions/:subscription_id" do
+  describe "GET /api/v1/customers/:id/subscriptions/:subscription_id" do
     it "returns a single customer subscription" do
       create_subscription(customer, subscription_params)
 

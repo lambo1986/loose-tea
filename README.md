@@ -17,4 +17,19 @@ Things to know:
 * Instructions - Clone repo, run 'bundle install' and then 'rails server' to run. 
 Needs front-end for full functionality. 
 
+Endpoints for consumption:
+
+- Base Url: http://localhost:3000
+
+- GET /api/v1/customers/:id/subscriptions
+
+- GET /api/v1/customers/:id/subscriptions/:subscription_id
+
+- POST /api/v1/customers/subscriptions
+
+- UPDATE /api/v1/customers/:id/subscriptions/:subscription_id
+
+- DELETE /api/v1/customers/:id/subscriptions/:subscription_id
+
+
 
