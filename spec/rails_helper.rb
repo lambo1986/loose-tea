@@ -80,3 +80,7 @@ VCR.configure do |config|
   config.filter_sensitive_data('SPOONER') { Rails.application.credentials[:keys][:spoonacular] }
   config.default_cassette_options = { match_requests_on: [:method, :path] }
 end
+
+RSpec.configure do |config|
+  config.include FactoryBot::Syntax::Methods
+end

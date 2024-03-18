@@ -1,4 +1,23 @@
 class Api::V1::CustomersController < ApplicationController
+
+  def index
+    customers = Customer.all
+    if customers.present?
+      render json: customers, status: :ok
+    else
+      render json: { error: 'No customers found' }, status: :not_found
+    end
+  end
+
+  def show
+    customer = Customer.find(params[:id])
+    if customer
+      render json: customer
+    else
+      render json: { error: "Customer not found" }, status: 404
+    end
+  end
+
   def create
     customer = Customer.new(customer_params)
     if customer.save
