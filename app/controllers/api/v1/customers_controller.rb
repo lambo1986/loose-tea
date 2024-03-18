@@ -1,6 +1,11 @@
 class Api::V1::CustomersController < ApplicationController
   def create
-    require 'pry'; binding.pry
+    customer = Customer.new(customer_params)
+    if customer.save
+      render json: customer, status: :created
+    else
+      render json: customer.errors, status: :unprocessable_entity
+    end
   end
 
   private
