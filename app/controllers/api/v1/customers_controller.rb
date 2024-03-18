@@ -1,5 +1,5 @@
 class Api::V1::CustomersController < ApplicationController
-
+  rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
   def index
     customers = Customer.all
     if customers.present?
@@ -31,5 +31,9 @@ class Api::V1::CustomersController < ApplicationController
 
   def customer_params
     params.require(:customer).permit(:first_name, :last_name, :email, :address)
+  end
+
+  def record_not_found
+    render json: { error: "Customer not found" }, status: :not_found
   end
 end
