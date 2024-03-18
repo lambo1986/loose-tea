@@ -11,11 +11,7 @@ class Api::V1::CustomersController < ApplicationController
 
   def show
     customer = Customer.find(params[:id])
-    if customer
-      render json: customer
-    else
-      render json: { error: "Customer not found" }, status: 404
-    end
+    render json: customer
   end
 
   def create

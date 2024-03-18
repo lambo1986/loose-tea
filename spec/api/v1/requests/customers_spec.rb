@@ -38,7 +38,7 @@ RSpec.describe "customer controller actions", type: :request do
   end
 
   describe "GET /customers/:id" do
-    it "returns a customer if it exists or an error if not" do
+    it "returns a customer if they exist" do
       post "/api/v1/customers", params: {
       customer: {
         first_name: "Jeffrey",
@@ -62,6 +62,7 @@ RSpec.describe "customer controller actions", type: :request do
 
       expect(json_response["error"]).to eq("Customer not found")
       expect(response).to have_http_status(:not_found)
+      expect(response.body).to include("Customer not found")
     end
   end
 
