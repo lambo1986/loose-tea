@@ -1,56 +1,100 @@
-# README
 
-***Hello and welcome to Loose Tea. This is a simple app that can help you find teas, purchase teas or subscribe to monthly tea clubs.***
+# Loose Tea
 
-### Things to know:
+Welcome to **Loose Tea**, a straightforward application designed to help you discover, purchase, and subscribe to monthly tea clubs. Whether you're a tea enthusiast or new to the world of tea, Loose Tea offers a seamless experience to explore and enjoy a wide range of teas.
 
-* Ruby version - 3.1.4
+## Key Information
 
-* Rails version - 7.1.3.2
+- **Ruby Version**: 3.1.4
+- **Rails Version**: 7.1.3.2
+- **Database**: PostgreSQL
 
-* Database - PostgreSQL
+## How to Run the Test Suite
 
-* How to run the test suite - run 'bundle exec rspec' with Terminal inside the root directory.
+To ensure the application functions as expected, run the following command in the Terminal while inside the root directory:
 
-* Services - Very simple: model, controller - serializer backend features. 
+```sh
+bundle exec rspec
+```
 
-* Instructions - Clone repo, run 'bundle install' and then 'rails server' to run. 
-Needs front-end for full functionality. 
+## Services
 
-# Practical Use
-### Link to DB Diagram for schema visualization:
-https://dbdiagram.io/d/Loose-Tea-659c2bf8ac844320ae79928c
+Loose Tea is built with simplicity in mind, featuring essential backend functionalities through models, controllers, and serializers.
 
-### Endpoints for consumption:
+## Getting Started
 
-- Base Url: http://localhost:3000
+Follow these instructions to get Loose Tea up and running on your local machine:
 
+1. **Clone the Repository**
 
-#### <--- Subscriptions --->
+   Use the following command to clone the repo:
 
-Get a list of all subscriptions for a customer:
-- GET /api/v1/customers/:id/subscriptions
+   ```sh
+   git clone <repository-url>
+   ```
 
-Get a single subscription for a customer:
-- GET /api/v1/customers/:id/subscriptions/:subscription_id
+2. **Install Dependencies**
 
-Create a new subscription for a customer:
-- POST /api/v1/customers/:id/subscriptions
+   Navigate to the root directory of the project and run:
 
-Change a customer's subscription:
-- UPDATE /api/v1/customers/:id/subscriptions/:subscription_id
+   ```sh
+   bundle install
+   ```
 
-Delete a subscription for a customer:
-- DELETE /api/v1/customers/:id/subscriptions/:subscription_id
+3. **Start the Rails Server**
 
-#### <--- Customers --->
+   Launch the application with:
 
-Get a list of all customers: 
-- GET /api/v1/customers
+   ```sh
+   rails server
+   ```
 
-Get one customer by ID:
-- GET /api/v1/customers/:id
+   Note: Loose Tea requires a front-end for full functionality.
 
-Create a new customer:
-- POST /api/v1/customers
+## Practical Use
 
+### Database Schema Visualization
+
+For a detailed view of the database schema, visit the following link:
+
+[DB Diagram for Loose Tea](https://dbdiagram.io/d/LooseTea-659c2bf8ac844320ae79928c)
+
+### API Endpoints
+
+Interact with the Loose Tea API through the following endpoints. The base URL for local development is `http://localhost:3000`.
+
+#### Subscriptions
+
+- **List All Subscriptions for a Customer**
+  
+  `GET /api/v1/customers/:id/subscriptions`
+
+- **Retrieve a Single Subscription**
+  
+  `GET /api/v1/customers/:id/subscriptions/:subscription_id`
+
+- **Create a New Subscription**
+  
+  `POST /api/v1/customers/:id/subscriptions`
+
+- **Update a Subscription**
+  
+  `PATCH /api/v1/customers/:id/subscriptions/:subscription_id`
+
+- **Delete a Subscription**
+  
+  `DELETE /api/v1/customers/:id/subscriptions/:subscription_id`
+
+#### Customers
+
+- **List All Customers**
+  
+  `GET /api/v1/customers`
+
+- **Retrieve One Customer by ID**
+  
+  `GET /api/v1/customers/:id`
+
+- **Create a New Customer**
+  
+  `POST /api/v1/customers`
