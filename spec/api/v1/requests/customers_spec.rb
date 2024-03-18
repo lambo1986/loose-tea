@@ -53,7 +53,7 @@ RSpec.describe "customer controller actions", type: :request do
       get "/api/v1/customers/#{Customer.last.id}"
       json_response = JSON.parse(response.body)
 
-      expect(json_response["first_name"]).to eq("Jeffrey")
+      expect(json_response["data"]["attributes"]["first_name"]).to eq("Jeffrey")
     end
 
     it "returns an error if the customer does not exist" do
@@ -75,8 +75,8 @@ RSpec.describe "customer controller actions", type: :request do
     it "returns all customers" do
       json_response = JSON.parse(response.body)
 
-      expect(json_response.length).to eq(5)
-      expect(json_response.first).to include("first_name")
+      expect(json_response["data"].length).to eq(5)
+      expect(json_response["data"].first["attributes"]).to include("first_name")
     end
   end
 

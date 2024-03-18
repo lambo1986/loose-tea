@@ -1,17 +1,19 @@
 class Api::V1::CustomersController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
+
   def index
     customers = Customer.all
     if customers.present?
-      render json: customers, status: :ok
+      render json: CustomerSerializer.new(customers).serializable_hash.to_json
     else
-      render json: { error: 'No customers found' }, status: :not_found
+      render json: { error: "No customers found" }, status: 404
     end
   end
 
+
   def show
     customer = Customer.find(params[:id])
-    render json: customer
+    render json: CustomerSerializer.new(customer).serializable_hash.to_json
   end
 
   def create
