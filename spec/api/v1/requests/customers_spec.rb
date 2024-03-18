@@ -54,11 +54,14 @@ RSpec.describe "customer controller actions", type: :request do
       json_response = JSON.parse(response.body)
 
       expect(json_response["first_name"]).to eq("Jeffrey")
+    end
 
+    it "returns an error if the customer does not exist" do
       get "/api/v1/customers/999999999999"
       json_response = JSON.parse(response.body)
 
       expect(json_response["error"]).to eq("Customer not found")
+      expect(response).to have_http_status(:not_found)
     end
   end
 
