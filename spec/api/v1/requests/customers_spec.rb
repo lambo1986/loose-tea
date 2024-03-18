@@ -12,13 +12,13 @@ RSpec.describe "customer controller actions", type: :request do
         }
       }
 
-    expect(response).to have_http_status(:created)
+      expect(response).to have_http_status(:created)
 
-    json_response = JSON.parse(response.body)
+      json_response = JSON.parse(response.body)
 
-    expect(json_response["first_name"]).to eq("Jeffrey")
-    expect(json_response["last_name"]).to eq("Willscott")
-    expect(Customer.last.email).to eq("cooldude@freebird.com")
+      expect(json_response["first_name"]).to eq("Jeffrey")
+      expect(json_response["last_name"]).to eq("Willscott")
+      expect(Customer.last.email).to eq("cooldude@freebird.com")
     end
   end
 end
