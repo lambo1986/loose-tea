@@ -20,10 +20,25 @@ RSpec.describe "customer controller actions", type: :request do
       expect(json_response["last_name"]).to eq("Willscott")
       expect(Customer.last.email).to eq("cooldude@freebird.com")
     end
+
+    it "fails to create a new customer if fields are blank" do
+      post "/api/v1/customers", params: {
+        customer: {
+          first_name: "",
+          last_name: "",
+          email: "",
+          address: "",
+        }
+      }
+
+      json_response = JSON.parse(response.body)
+
+      expect(response).to have_http_status(:unprocessable_entity)
+    end
   end
 
   describe "GET /customers/:id" do
-    it "returns a customer" do
+    it "returns a customer if it exists or an error if not" do
       post "/api/v1/customers", params: {
       customer: {
         first_name: "Jeffrey",
@@ -36,10 +51,14 @@ RSpec.describe "customer controller actions", type: :request do
       expect(response).to have_http_status(:created)
 
       get "/api/v1/customers/#{Customer.last.id}"
-
       json_response = JSON.parse(response.body)
 
       expect(json_response["first_name"]).to eq("Jeffrey")
+
+      get "/api/v1/customers/999999999999"
+      json_response = JSON.parse(response.body)
+
+      expect(json_response["error"]).to eq("Customer not found")
     end
   end
 
@@ -54,6 +73,16 @@ RSpec.describe "customer controller actions", type: :request do
 
       expect(json_response.length).to eq(5)
       expect(json_response.first).to include("first_name")
+    end
+  end
+
+  describe "index sad path" do
+    it "returns a 404 error if no customers exist" do
+      get "/api/v1/customers"
+
+      json_response = JSON.parse(response.body)
+
+      expect(response).to have_http_status(:not_found)
     end
   end
 end
